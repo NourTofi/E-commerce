@@ -5,15 +5,16 @@ import { apiRouts } from "../../constant/apiRoutes";
 
 const LogOut = () => {
   const cookie = Cookie();
+  const token = cookie.get("e-commerce");
 
-  const logOut = async () => {
+  const handleLogOut = async () => {
     const response = await axios.get(apiRouts.auth.auth.logOut, {
-      headers: { Authorization: "Bearer " + cookie.get("e-commerce") },
+      headers: { Authorization: "Bearer " + token },
     });
     return response;
   };
-  
-  return <button onClick={logOut}>LogOut</button>;
+
+  return <button onClick={handleLogOut}>LogOut</button>;
 };
 
 export default LogOut;

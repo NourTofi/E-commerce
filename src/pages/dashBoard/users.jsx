@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { apiRouts } from "../../constant/apiRoutes";
 import Cookie from "cookie-universal";
 import LogOut from "../auth/logOut";
+
 const Users = () => {
   const cookie = Cookie();
 
@@ -11,7 +12,7 @@ const Users = () => {
     const response = await axios.get(apiRouts.users.users.show, {
       headers: { Authorization: "Bearer " + cookie.get("e-commerce") },
     });
-
+    console.log(response);
     return response;
   };
   const { data, isloading, error } = useQuery(["users"], fetchUsers);

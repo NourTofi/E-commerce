@@ -43,8 +43,9 @@ const LogIn = () => {
     try {
       const response = await axios.post(apiRouts.auth.auth.logIn, data);
       const token = response.data.token;
+
       cookie.set("e-commerce", token);
-      console.log(token);
+
       navigate("/users");
     } catch (error) {
       if (error.response?.data?.error) {
@@ -100,17 +101,17 @@ const LogIn = () => {
           >
             Submit
           </button>
-          <div className="mt-6">
-            <button
-              onClick={() =>
-                (window.location.href = "http://127.0.0.1:8000/login-google")
-              }
-              className="w-full bg-blue-500 text-white py-3 px-4 rounded-md shadow-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 transition duration-300"
-            >
-              Login with Google
-            </button>
-          </div>
         </form>
+        <div className="mt-6">
+          <button
+            onClick={() =>
+              (window.location.href = "http://127.0.0.1:8000/login-google")
+            }
+            className="w-full bg-blue-500 text-white py-3 px-4 rounded-md shadow-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 transition duration-300"
+          >
+            Login with Google
+          </button>
+        </div>
       </div>
     </div>
   );

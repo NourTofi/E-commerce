@@ -4,6 +4,7 @@ import { apiRouts } from "../../constant/apiRoutes";
 import axios from "../../lib/axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Cookie from "cookie-universal";
 
 const validationRules = {
   name: { required: "Name is required" },
@@ -26,6 +27,7 @@ const validationRules = {
 const Register = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const cookie = Cookie();
 
   const {
     register,
@@ -38,7 +40,11 @@ const Register = () => {
     try {
       setLoading(true);
       const response = await axios.post(apiRouts.auth.auth.register, data);
-      navigate("/login");
+      const token = response.data.token;
+
+      cookie.set("e-commerce", token);
+
+      navigate("/users");
     } catch (error) {
       if (error.response?.data?.message) {
         setError("email", {
@@ -102,6 +108,16 @@ const Register = () => {
             Submit
           </button>
         </form>
+        <div className="mt-6">
+          <button
+            onClick={() =>
+              (window.location.href = "http://127.0.0.1:8000/login-google")
+            }
+            className="w-full bg-blue-500 text-white py-3 px-4 rounded-md shadow-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 transition duration-300"
+          >
+            Login with Google
+          </button>
+        </div>
       </div>
     </div>
   );

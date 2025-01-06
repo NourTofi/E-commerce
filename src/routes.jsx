@@ -3,6 +3,7 @@ import HomePage from "./pages/website/homePage";
 import LogIn from "./pages/auth/logIn";
 import Register from "./pages/auth/register";
 import Users from "./pages/dashBoard/users";
+import GoogleCallBack from "./pages/auth/googleCallBack";
 const routes = () => {
   return (
     <Routes>
@@ -21,6 +22,10 @@ const routes = () => {
       <Route
         path="/users"
         element={<Users />}
+      />
+      <Route
+        path="/auth/google/callback"
+        element={<GoogleCallBack />}
       />
     </Routes>
   );
