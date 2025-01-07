@@ -1,10 +1,7 @@
 import InputField from "../../components/form/inputField";
 import { useForm } from "react-hook-form";
-import { apiRouts } from "../../constant/apiRoutes";
-import axios from "../../lib/axios";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import Cookie from "cookie-universal";
+import useLogin from "../../hooks/auth/useLogIn";
+import Loading from "../../components/loading";
 
 const validationRules = {
   name: { required: "Name is required" },
@@ -25,47 +22,21 @@ const validationRules = {
 };
 
 const LogIn = () => {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const cookie = Cookie();
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    setLoading(true);
-    setErrorMessage("");
+  const { login, loading, errorMessage } = useLogin();
 
-    try {
-      const response = await axios.post(apiRouts.auth.auth.logIn, data);
-      const token = response.data.token;
-
-      cookie.set("e-commerce", token);
-
-      navigate("/users");
-    } catch (error) {
-      if (error.response?.data?.error) {
-        setErrorMessage("Wrong Email or Password.");
-      } else {
-        console.error("An unexpected error occurred:", error);
-        setErrorMessage("An unexpected error occurred. Please try again.");
-      }
-    } finally {
-      setLoading(false);
-    }
+  const onSubmit = (data) => {
+    login(data);
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200">
-      {loading && (
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="w-16 h-16 border-4 border-green-500 border-t-transparent border-solid rounded-full animate-spin"></div>
-        </div>
-      )}
+      {loading && <Loading />}
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
         <h1 className="text-3xl font-bold text-center text-green-600 mb-6">
           LogIn
